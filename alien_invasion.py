@@ -3,31 +3,29 @@
 
 import sys
 import pygame
+from settings import Settings
 
 def run_game():
-
-    # 初始化游戏
+    '''
+    1.初始化游戏，并创建一个屏幕，循环每次刷新屏幕最新
+    2.捕获键盘和鼠标事件
+    3.设置背景色
+    4.设置游戏的标题
+    :return:
+    '''
     pygame.init()
-
-    # 创建一个游戏屏幕，并设置大小
-    screen = pygame.display.set_mode((1000, 600))
-
-    # 设置游戏的标题
-    pygame.display.set_caption("Alien Invasion")
-
-    bg_color = (230, 230, 230)  # 设置背景颜色
+    pygame.display.set_caption('Alien Invasion')
+    game_settings = Settings()  # 实例化Settings类
+    screen = pygame.display.set_mode((
+        game_settings.screen_width, game_settings.screen_height))
 
     while True:
-
-        for event in pygame.event.get():  # 获取鼠标和键盘的事件
-            if event.type == pygame.QUIT:  # 捕捉用户退出事件
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 sys.exit()
-        screen.fill(bg_color)  # 填充颜色
-
-        pygame.display.flip()  # 刷新屏幕，使处于最新
-
+        screen.fill(game_settings.bg_color)
+        pygame.display.flip()
 run_game()
-
 
 
 
