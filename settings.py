@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
+
 class Settings(object):
     """
     用于存储游戏的所有的设置

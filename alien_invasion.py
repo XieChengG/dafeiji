@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import sys
 import pygame
 from settings import Settings
 from ship import Ship
+import game_functions as gf
+
 
 def run_game():
     """
@@ -23,12 +24,8 @@ def run_game():
     ship = Ship(screen)  # 实例化Ship类,创建一艘飞船
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-        screen.fill(game_settings.bg_color)
-        ship.blitme()  # 指定飞船在屏幕的位置
-        pygame.display.flip()
+        gf.check_events(ship)
+        gf.update_screen(game_settings, screen, ship)
 run_game()
 
 
