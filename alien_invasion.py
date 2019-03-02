@@ -25,6 +25,7 @@ def run_game():
 
     while True:
         gf.check_events(ship)
+        ship.update()  # 更新飞船的位置
         gf.update_screen(game_settings, screen, ship)
 run_game()
 
