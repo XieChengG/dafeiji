@@ -24,13 +24,19 @@ class Ship(object):
         # 飞船向右移动的标志
         self.moving_right = False
 
+        # 飞船向左移动的标志
+        self.moving_left = False
+
     def update(self):
         """
         1.判断moving_right标志，控制飞船向右移动
+        2.判断moving_left标志，控制飞船向左移动
         :return:
         """
         if self.moving_right:
             self.rect.centerx += 1
+        if self.moving_left:
+            self.rect.centerx -= 1
 
     def blitme(self):
         """

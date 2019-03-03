@@ -19,11 +19,15 @@ def check_events(ship):
             if event.key == pygame.K_RIGHT:
                 ship.moving_right = True  # 设置向右移动的标志为True
                 # ship.rect.centerx += 1
+            elif event.key == pygame.K_LEFT:
+                ship.moving_left = True  # 设置向左移动的标志位True
 
         # 检测键盘松开事件
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
                 ship.moving_right = False
+            elif event.key == pygame.K_LEFT:
+                ship.moving_left = False
 
 
 def update_screen(game_settings, screen, ship):
