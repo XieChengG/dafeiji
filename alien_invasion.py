@@ -21,7 +21,7 @@ def run_game():
     game_settings = Settings()  # 实例化Settings类
     screen = pygame.display.set_mode((
         game_settings.screen_width, game_settings.screen_height))
-    ship = Ship(screen)  # 实例化Ship类,创建一艘飞船
+    ship = Ship(game_settings, screen)  # 实例化Ship类,创建一艘飞船
 
     while True:
         gf.check_events(ship)

@@ -5,6 +5,29 @@ import sys
 import pygame
 
 
+def check_keydown_events(ship, event):
+    """
+    检测按下键盘事件
+    :return:
+    """
+    if event.key == pygame.K_RIGHT:
+        ship.moving_right = True  # 设置向右移动的标志为True
+        # ship.rect.centerx += 1
+    elif event.key == pygame.K_LEFT:
+        ship.moving_left = True  # 设置向左移动的标志位True
+
+
+def check_keyup_events(event, ship):
+    """
+    检测松开键盘事件
+    :return:
+    """
+    if event.key == pygame.K_RIGHT:
+        ship.moving_right = False
+    elif event.key == pygame.K_LEFT:
+        ship.moving_left = False
+
+
 def check_events(ship):
     """
     事件管理，捕获键盘和鼠标事件
@@ -16,18 +39,11 @@ def check_events(ship):
 
         # 检测KEYDOWN事件，如果是右箭头键，则飞船右移
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                ship.moving_right = True  # 设置向右移动的标志为True
-                # ship.rect.centerx += 1
-            elif event.key == pygame.K_LEFT:
-                ship.moving_left = True  # 设置向左移动的标志位True
+            check_keydown_events(event, ship)
 
         # 检测键盘松开事件
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_RIGHT:
-                ship.moving_right = False
-            elif event.key == pygame.K_LEFT:
-                ship.moving_left = False
+            check_keyup_events(event, ship)
 
 
 def update_screen(game_settings, screen, ship):
