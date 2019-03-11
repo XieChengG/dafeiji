@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import pygame
+from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
 import game_functions as gf
@@ -22,10 +23,12 @@ def run_game():
     screen = pygame.display.set_mode((
         game_settings.screen_width, game_settings.screen_height))
     ship = Ship(game_settings, screen)  # 实例化Ship类,创建一艘飞船
+    bullets = Group()  # 实例化编组
 
     while True:
         gf.check_events(ship)
         ship.update()  # 更新飞船的位置
+        bullets.update()  # 更新子弹的位置
         gf.update_screen(game_settings, screen, ship)
 run_game()
 
