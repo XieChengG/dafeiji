@@ -26,14 +26,18 @@ def run_game():
     bullets = Group()  # 实例化编组
 
     while True:
-        gf.check_events(ship)
+        gf.check_events(ship, screen, game_settings, bullets)
         ship.update()  # 更新飞船的位置
         bullets.update()  # 更新子弹的位置
-        gf.update_screen(game_settings, screen, ship)
+
+        # 删除已消失的子弹
+        for bullet in bullets.copy():
+            if bullet.rect.bottom <= 0:  # 当子弹穿过屏幕顶端时删除
+                bullets.remove(bullet)
+        print(len(bullets))
+
+        gf.update_screen(game_settings, screen, ship, bullets)
 run_game()
-
-
-
 
 
 
