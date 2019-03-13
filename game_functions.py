@@ -19,6 +19,12 @@ def check_keydown_events(ship, event, screen, game_settings, bullets):
 
     # 判断如果按下的是空格键，则发射子弹
     elif event.key == pygame.K_SPACE:
+        fire_bullets(game_settings, screen, ship, bullets)
+
+
+def fire_bullets(game_settings, screen, ship, bullets):
+    """发射子弹函数"""
+    if len(bullets) < game_settings.bullets_allowed:  # 判断子弹列表里的子弹数量
         new_bullet = Bullet(screen, game_settings, ship)  # 实例化一个子弹对象
         bullets.add(new_bullet)  # 将新创建的子弹添加到子弹列表中
 
@@ -75,4 +81,10 @@ def update_screen(game_settings, screen, ship, bullets):
     pygame.display.flip()
 
 
-
+def update_bullets(bullets):
+    bullets.update()  # 更新子弹的位置
+    # 删除已消失的子弹
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:  # 当子弹穿过屏幕顶端时删除
+            bullets.remove(bullet)
+    # print(len(bullets))
