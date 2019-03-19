@@ -21,6 +21,10 @@ def check_keydown_events(ship, event, screen, game_settings, bullets):
     elif event.key == pygame.K_SPACE:
         fire_bullets(game_settings, screen, ship, bullets)
 
+    # 判断如果按下的是Q键，则退出游戏
+    elif event.key == pygame.K_q:
+        sys.exit()
+
 
 def fire_bullets(game_settings, screen, ship, bullets):
     """发射子弹函数"""
@@ -58,13 +62,14 @@ def check_events(screen, game_settings, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(game_settings, screen, ship, bullets):
+def update_screen(game_settings, screen, ship, bullets, alien):
     """
 
     :param game_settings:
     :param screen:
     :param ship:
     :param bullets:
+    :param alien:
     :return:
     """
     # 设置屏幕背景色
@@ -76,6 +81,9 @@ def update_screen(game_settings, screen, ship, bullets):
     # 在屏幕上绘制子弹
     for bullet in bullets.sprites():  # 遍历在列表里的子弹
         bullet.draw_bullet()
+
+    # 在屏幕指定位置绘制外星人
+    alien.blitme()
 
     # 刷新屏幕
     pygame.display.flip()
