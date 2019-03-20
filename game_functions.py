@@ -4,6 +4,7 @@
 import sys
 import pygame
 from bullet import Bullet
+from alien import Alien
 
 
 def check_keydown_events(ship, event, screen, game_settings, bullets):
@@ -62,14 +63,14 @@ def check_events(screen, game_settings, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(game_settings, screen, ship, bullets, alien):
+def update_screen(game_settings, screen, ship, bullets, aliens):
     """
 
     :param game_settings:
     :param screen:
     :param ship:
     :param bullets:
-    :param alien:
+    :param aliens:
     :return:
     """
     # 设置屏幕背景色
@@ -82,8 +83,8 @@ def update_screen(game_settings, screen, ship, bullets, alien):
     for bullet in bullets.sprites():  # 遍历在列表里的子弹
         bullet.draw_bullet()
 
-    # 在屏幕指定位置绘制外星人
-    alien.blitme()
+    # 在屏幕上绘制外星人群
+    aliens.draw(screen)
 
     # 刷新屏幕
     pygame.display.flip()
@@ -96,3 +97,23 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:  # 当子弹穿过屏幕顶端时删除
             bullets.remove(bullet)
     # print(len(bullets))
+
+
+def create_fleet(game_settings, screen, aliens):
+    """创建外星人群"""
+    alien = Alien(screen, game_settings)
+    alien_width = alien.rect.width  # 获取一个外星人的宽度
+    available_space_x = game_settings.screen_width - 2 * alien_width  # 获取除去边距，可用的行宽度
+    number_alien_x = int(available_space_x / (2 * alien_width))  # 获取可用空间内一行可容纳的外星人数量
+
+    # 创建第一行外星人
+    for alien_number in range(number_alien_x):
+        alien = Alien(screen, game_settings)  # 创建一个外星人实例
+        alien_x = alien_width + 2 * alien_width * alien_number  # 计算新创建的外星人的x坐标
+        alien.rect.x = alien_x
+        aliens.add(alien)  # 将新创建的外星人添加到编组中
+
+
+
+
+
