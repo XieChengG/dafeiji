@@ -99,19 +99,34 @@ def update_bullets(bullets):
     # print(len(bullets))
 
 
+def get_number_alien_x(game_settings, alien_width):
+    """获取可用空间内一行可容纳的外星人数量"""
+    available_space_x = game_settings.screen_width - 2 * alien_width  # 获取除去边距，可用的行宽度
+    number_alien_x = int(available_space_x / (2 * alien_width))  # 可用空间内一行可容纳的外星人数量
+    return number_alien_x
+
+
+def create_aliens(screen, game_settings, aliens, alien_number):
+    """创建一个外星人，并放在当前行"""
+    alien = Alien(screen, game_settings)  # 创建一个外星人实例
+    alien_width = alien.rect.width  # 获取一个外星人的宽度
+    alien_x = alien_width + 2 * alien_width * alien_number  # 计算新创建的外星人的x坐标
+    alien.rect.x = alien_x
+    aliens.add(alien)  # 将新创建的外星人添加到编组中
+
+
 def create_fleet(game_settings, screen, aliens):
     """创建外星人群"""
     alien = Alien(screen, game_settings)
-    alien_width = alien.rect.width  # 获取一个外星人的宽度
-    available_space_x = game_settings.screen_width - 2 * alien_width  # 获取除去边距，可用的行宽度
-    number_alien_x = int(available_space_x / (2 * alien_width))  # 获取可用空间内一行可容纳的外星人数量
+    alien_width = alien.rect.width
+    number_alien_x = get_number_alien_x(game_settings, alien_width)  # 计算一行外星人的个数
 
     # 创建第一行外星人
     for alien_number in range(number_alien_x):
-        alien = Alien(screen, game_settings)  # 创建一个外星人实例
-        alien_x = alien_width + 2 * alien_width * alien_number  # 计算新创建的外星人的x坐标
-        alien.rect.x = alien_x
-        aliens.add(alien)  # 将新创建的外星人添加到编组中
+        create_aliens(screen, game_settings, aliens, alien_number)
+
+
+
 
 
 
