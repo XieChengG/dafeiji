@@ -106,24 +106,61 @@ def get_number_alien_x(game_settings, alien_width):
     return number_alien_x
 
 
-def create_aliens(screen, game_settings, aliens, alien_number):
+def get_number_rows(game_settings, alien_height, ship_height):
+    """计算在可用的垂直空间内能
+    能容纳多少行外星人"""
+    available_space_y = (game_settings.screen_height -
+                         (3 * alien_height) - ship_height)
+    number_rows = int(available_space_y / (2 * alien_height))  # 计算能容纳外星人的行数
+    return number_rows
+
+
+def create_aliens(screen, game_settings, aliens, alien_number, row_number):
     """创建一个外星人，并放在当前行"""
     alien = Alien(screen, game_settings)  # 创建一个外星人实例
     alien_width = alien.rect.width  # 获取一个外星人的宽度
+    alien_height = alien.rect.height  # 获取一个外星人的高度
     alien_x = alien_width + 2 * alien_width * alien_number  # 计算新创建的外星人的x坐标
+    alien_y = alien_height + 2 * alien_height * row_number  # 计算新创建的外星人的y坐标
     alien.rect.x = alien_x
+    alien.rect.y = alien_y
     aliens.add(alien)  # 将新创建的外星人添加到编组中
 
 
-def create_fleet(game_settings, screen, aliens):
+def create_fleet(game_settings, screen, aliens, ship):
     """创建外星人群"""
     alien = Alien(screen, game_settings)
     alien_width = alien.rect.width
     number_alien_x = get_number_alien_x(game_settings, alien_width)  # 计算一行外星人的个数
+    number_rows = get_number_rows(game_settings, alien.rect.height, ship.rect.height)  # 获取能容纳外星人的行数
 
-    # 创建第一行外星人
-    for alien_number in range(number_alien_x):
-        create_aliens(screen, game_settings, aliens, alien_number)
+    # 创建多行外星人
+    for row_number in range(number_rows):
+        for alien_number in range(number_alien_x):
+            create_aliens(screen, game_settings, aliens, alien_number, row_number)
+
+
+def check_fleet_edges(aliens, game_settings):
+    """当有外星人到达屏幕边缘时，执行动作"""
+    for alien in aliens.sprites():
+        if alien.check_edges:  # 获取函数check_edges的返回值为真
+            change_fleet_direction(aliens, game_settings)
+            break
+
+
+def change_fleet_direction(aliens, game_settings):
+    """外星人下移，并改变外星人的移动方向"""
+    for alien in aliens.sprites():
+        alien.rect.y += game_settings.fleet_drop_speed  # 下移
+    game_settings.fleet_direction *= -1  # 向反方向移动
+
+
+def update_aliens(aliens, game_settings):
+    """更新编组内的所有外星人的位置"""
+    check_fleet_edges(aliens, game_settings)  # 检查是否有外星人位于屏幕边缘
+    aliens.update()
+
+
 
 
 

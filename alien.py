@@ -25,6 +25,21 @@ class Alien(Sprite):
         """在屏幕上的指定位置绘制外星人"""
         self.screen.blit(self.image, self.rect)
 
+    def check_edges(self):
+        """检查外星人是否位于屏幕的边缘"""
+        screen_rect = self.screen.rect  # 获取屏幕边缘
+
+        # 如果有外星人位于屏幕的左边缘或右边缘，都返回True
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
+
+    def update(self):
+        """向右移动外星人"""
+        self.x += (self.game_settings.alien_speed_factor * self.game_settings.fleet_direction)
+        self.rect.x = self.x
+
 
 
 
