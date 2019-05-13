@@ -166,10 +166,14 @@ def change_fleet_direction(aliens, game_settings):
     game_settings.fleet_direction *= -1  # 向反方向移动
 
 
-def update_aliens(aliens, game_settings):
+def update_aliens(ship, aliens, game_settings):
     """更新编组内的所有外星人的位置"""
     check_fleet_edges(aliens, game_settings)  # 检查是否有外星人位于屏幕边缘
     aliens.update()
+
+    # 检测外星人和飞船之间的碰撞
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("Ship hit!!!")
 
 
 

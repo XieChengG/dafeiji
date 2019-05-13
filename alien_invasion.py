@@ -31,7 +31,7 @@ def run_game():
         ship.update()  # 更新飞船的位置
         gf.update_bullets(game_settings, screen, aliens, ship, bullets)  # 更新子弹
         gf.create_fleet(game_settings, screen, aliens, ship)  # 在屏幕上绘制外星人群
-        gf.update_aliens(aliens, game_settings)
+        gf.update_aliens(ship, aliens, game_settings)
         gf.update_screen(game_settings, screen, ship, bullets, aliens)
 run_game()
 
