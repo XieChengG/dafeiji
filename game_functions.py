@@ -56,7 +56,7 @@ def check_events(screen, game_settings, ship, bullets):
 
         # 检测KEYDOWN事件，如果是右箭头键，则飞船右移
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, screen, game_settings, ship, bullets)
+            check_keydown_events(ship, event, screen, game_settings, bullets)
 
         # 检测键盘松开事件
         elif event.type == pygame.KEYUP:
@@ -90,14 +90,25 @@ def update_screen(game_settings, screen, ship, bullets, aliens):
     pygame.display.flip()
 
 
-def update_bullets(bullets):
+def update_bullets(game_settings, screen, aliens, ship, bullets):
     bullets.update()  # 更新子弹的位置
-    # 删除已消失的子弹
-    for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:  # 当子弹穿过屏幕顶端时删除
-            bullets.remove(bullet)
-    # print(len(bullets))
+    check_bullet_alien_collisions(game_settings, screen, aliens, ship, bullets)  # 调用函数
 
+    # 删除已消失的子弹
+    for bullet in bullets.copy():  
+        if bullet.rect.bottom <= 0:  # 当子弹穿过屏幕顶端时删除
+            bullets.remove(bullet)     
+
+def check_bullet_alien_collisions(game_settings, screen, aliens, ship, bullets):
+    """
+    检测子弹和外星人的碰撞，发生时同时删除子弹和外星人
+    当外星人消灭干净时，则生成新的外星人群
+    """
+    collisions = pygame.sprite.groupcollide(aliens, bullets, True, True)
+    
+    if len(aliens) == 0:
+        bullets.empty()  # 清空子弹
+        create_fleet(game_settings, screen, aliens, ship)
 
 def get_number_alien_x(game_settings, alien_width):
     """获取可用空间内一行可容纳的外星人数量"""

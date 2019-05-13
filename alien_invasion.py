@@ -27,9 +27,9 @@ def run_game():
     aliens = Group()  # 创建用于存储外星人群的编组
 
     while True:
-        gf.check_events(ship, screen, game_settings, bullets)
+        gf.check_events(screen, game_settings, ship, bullets)
         ship.update()  # 更新飞船的位置
-        gf.update_bullets(bullets)  # 更新子弹
+        gf.update_bullets(game_settings, screen, aliens, ship, bullets)  # 更新子弹
         gf.create_fleet(game_settings, screen, aliens, ship)  # 在屏幕上绘制外星人群
         gf.update_aliens(aliens, game_settings)
         gf.update_screen(game_settings, screen, ship, bullets, aliens)
